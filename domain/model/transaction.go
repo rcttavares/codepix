@@ -9,10 +9,10 @@ import (
 )
 
 const (
-	TransactionPending	string =	"pending"
-	TransactionCompleted	string =	"completed"
-	TransactionError	string =	"error"
-	TransactionConfirmed	string =	"confirmed"
+	TransactionPending   string = "pending"
+	TransactionCompleted string = "completed"
+	TransactionError     string = "error"
+	TransactionConfirmed string = "confirmed"
 )
 
 type TransactionRepositoryInterface interface {
@@ -26,15 +26,15 @@ type Transactions struct {
 }
 
 type Transaction struct {
-	Base	`valid:"required"`
-	AccountFrom	*Account	`valid:"-"`
-	AccountFromID	string	`gorm:"column:account_from_id;type:uuid;" valid:"notnull"`
-	Amount	float64	`json:"amount" gorm:"type:float" valid:"notnull"`
-	PixKeyTo	*PixKey	`valid:"-"`
-	PixKeyIdTo	string	`gorm:"column:pix_key_id_to;type:uuid;" valid:"notnull"`
-	Status	string	`json:"status" gorm:"type:varchar(20)" valid:"notnull"`
-	Description	string	`json:"description" gorm:"type:varchar(255)" valid:"-"`
-	CancelDescription	string	`json:"cancel_description" gorm:"type:varchar(255)" valid:"-"`
+	Base              `valid:"required"`
+	AccountFrom       *Account `valid:"-"`
+	AccountFromID     string   `gorm:"column:account_from_id;type:uuid;" valid:"notnull"`
+	Amount            float64  `json:"amount" gorm:"type:float" valid:"notnull"`
+	PixKeyTo          *PixKey  `valid:"-"`
+	PixKeyIdTo        string   `gorm:"column:pix_key_id_to;type:uuid;" valid:"notnull"`
+	Status            string   `json:"status" gorm:"type:varchar(20)" valid:"notnull"`
+	Description       string   `json:"description" gorm:"type:varchar(255)" valid:"-"`
+	CancelDescription string   `json:"cancel_description" gorm:"type:varchar(255)" valid:"-"`
 }
 
 func init() {
@@ -80,13 +80,13 @@ func (t *Transaction) Cancel(description string) error {
 
 func NewTransaction(accountFrom *Account, amount float64, pixKeyTo *PixKey, description string, id string) (*Transaction, error) {
 	transaction := Transaction{
-		AccountFrom:	accountFrom,
-		AccountFromID:	accountFrom.ID,
-		Amount:	amount,
-		PixKeyTo:	pixKeyTo,
-		PixKeyIdTo:	pixKeyTo.ID,
-		Status:	TransactionPending,
-		Description:	description,
+		AccountFrom:   accountFrom,
+		AccountFromID: accountFrom.ID,
+		Amount:        amount,
+		PixKeyTo:      pixKeyTo,
+		PixKeyIdTo:    pixKeyTo.ID,
+		Status:        TransactionPending,
+		Description:   description,
 	}
 
 	if id == "" {
@@ -100,6 +100,6 @@ func NewTransaction(accountFrom *Account, amount float64, pixKeyTo *PixKey, desc
 	if err != nil {
 		return nil, err
 	}
-	
+
 	return &transaction, nil
 }

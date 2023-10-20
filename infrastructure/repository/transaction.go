@@ -3,8 +3,8 @@ package repository
 import (
 	"fmt"
 
+	"github.com/jinzhu/gorm"
 	"github.com/rcttavares/codepix/domain/model"
-	"gorm.io/gorm"
 )
 
 type TransactionRepositoryDb struct {
@@ -16,7 +16,7 @@ func (t *TransactionRepositoryDb) Register(transaction *model.Transaction) error
 	if err != nil {
 		return err
 	}
-	
+
 	return nil
 }
 
@@ -34,8 +34,8 @@ func (t *TransactionRepositoryDb) Find(id string) (*model.Transaction, error) {
 	t.Db.Preload("AccountFrom.Bank").First(&transaction, "id = ?", id)
 
 	if transaction.ID == "" {
-		return nil, fmt.Errorf("no transaction was found")
+		return nil, fmt.Errorf("no key was found")
 	}
-	
+
 	return &transaction, nil
 }

@@ -8,8 +8,8 @@ import (
 )
 
 type TransactionUseCase struct {
-	TransactionRepository	model.TransactionRepositoryInterface
-	PixRepository	model.PixKeyRepositoryInterface
+	TransactionRepository model.TransactionRepositoryInterface
+	PixRepository         model.PixKeyRepositoryInterface
 }
 
 func (t *TransactionUseCase) Register(accountId string, amount float64, pixKeyto string, pixKeyKindTo string, description string, id string) (*model.Transaction, error) {
