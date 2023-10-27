@@ -21,12 +21,12 @@ func init() {
 }
 
 type PixKey struct {
-	Base	`valid:"required"`
-	Kind	string	`json:"kind" gorm:"type:varchar(20)" valid:"notnull"`
-	Key	string	`json:"key" gorm:"type:varchar(255)" valid:"notnull"`
-	AccountID	string	`gorm:"column:account_id;type:uuid;not null" valid:"-"`
-	Account	*Account	`valid:"-"`
-	Status	string	`json:"status" gorm:"type:varchar(20)" valid:"notnull"`
+	Base      `valid:"required"`
+	Kind      string   `json:"kind" gorm:"type:varchar(20)" valid:"notnull"`
+	Key       string   `json:"key" gorm:"type:varchar(255)" valid:"notnull"`
+	AccountID string   `gorm:"column:account_id;type:uuid;not null" valid:"-"`
+	Account   *Account `valid:"-"`
+	Status    string   `json:"status" gorm:"type:varchar(20)" valid:"notnull"`
 }
 
 func (p *PixKey) isValid() error {
@@ -49,11 +49,11 @@ func (p *PixKey) isValid() error {
 
 func NewPixKey(kind string, account *Account, key string) (*PixKey, error) {
 	pixKey := PixKey{
-		Kind:	kind,
-		Key:	key,
-		Account:	account,
-		AccountID:	account.ID,
-		Status:	"active",
+		Kind:      kind,
+		Key:       key,
+		Account:   account,
+		AccountID: account.ID,
+		Status:    "active",
 	}
 
 	pixKey.ID = uuid.NewV4().String()
@@ -63,6 +63,6 @@ func NewPixKey(kind string, account *Account, key string) (*PixKey, error) {
 	if err != nil {
 		return nil, err
 	}
-	
+
 	return &pixKey, nil
 }

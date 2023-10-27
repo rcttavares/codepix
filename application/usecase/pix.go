@@ -32,6 +32,6 @@ func (p *PixUseCase) FindKey(key string, kind string) (*model.PixKey, error) {
 	if err != nil {
 		return nil, err
 	}
-	
+
 	return pixKey, nil
 }
