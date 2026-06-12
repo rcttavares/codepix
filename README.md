@@ -65,23 +65,25 @@ docker compose exec app bash
 **3. Seed the database with fixture data:**
 
 ```bash
-go run main.go fixtures
+go run -tags dynamic main.go fixtures
 ```
 
 **4. Start gRPC server + Kafka consumer:**
 
 ```bash
-go run main.go all
+go run -tags dynamic main.go all
 ```
+
+> **Note (Apple Silicon / ARM64):** `confluent-kafka-go v1.9.2` ships a vendored librdkafka built for x86_64 only. The `-tags dynamic` flag tells the compiler to use the system librdkafka (`librdkafka-dev`, already installed in the Docker image) instead.
 
 ## CLI Commands
 
 | Command | Description |
 | ------- | ----------- |
-| `go run main.go grpc` | Start the gRPC server only (default port `50051`) |
-| `go run main.go kafka` | Start the Kafka consumer only |
-| `go run main.go all` | Start both gRPC and Kafka concurrently |
-| `go run main.go fixtures` | Seed the database with sample banks and accounts |
+| `go run -tags dynamic main.go grpc` | Start the gRPC server only (default port `50051`) |
+| `go run -tags dynamic main.go kafka` | Start the Kafka consumer only |
+| `go run -tags dynamic main.go all` | Start both gRPC and Kafka concurrently |
+| `go run -tags dynamic main.go fixtures` | Seed the database with sample banks and accounts |
 
 ### Flags
 
