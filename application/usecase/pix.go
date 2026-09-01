@@ -35,3 +35,7 @@ func (p *PixUseCase) FindKey(key string, kind string) (*model.PixKey, error) {
 
 	return pixKey, nil
 }
+
+func (p *PixUseCase) DeactivateKey(id string) (*model.PixKey, error) {
+	return p.PixKeyRepository.DeactivateKey(id)
+}

@@ -38,7 +38,18 @@ message PixKeyCreatedResult {
   string error = 3;
 }
 
+message PixKeyId {
+  string id = 1;
+}
+
+message PixKeyDeactivatedResult {
+  string id = 1;
+  string status = 2;
+  string error = 3;
+}
+
 service PixService {
   rpc RegisterPixKey (PixKeyRegistration) returns (PixKeyCreatedResult) {};
   rpc Find (PixKey) returns (PixKeyInfo) {};
+  rpc DeactivatePixKey (PixKeyId) returns (PixKeyDeactivatedResult) {};
 }

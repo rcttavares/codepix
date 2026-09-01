@@ -40,10 +40,27 @@ func (r PixKeyRepositoryDb) RegisterKey(pixKey *model.PixKey) (*model.PixKey, er
 
 func (r PixKeyRepositoryDb) FindKeyByKind(key string, kind string) (*model.PixKey, error) {
 	var pixKey model.PixKey
-	r.Db.Preload("Account.Bank").First(&pixKey, "kind = ? and key = ?", kind, key)
+	r.Db.Preload("Account.Bank").First(&pixKey, "kind = ? and key = ? and status = ?", kind, key, "active")
 
 	if pixKey.ID == "" {
 		return nil, fmt.Errorf("no key was found")
+	}
+
+	return &pixKey, nil
+}
+
+func (r PixKeyRepositoryDb) DeactivateKey(id string) (*model.PixKey, error) {
+	var pixKey model.PixKey
+	r.Db.First(&pixKey, "id = ?", id)
+
+	if pixKey.ID == "" {
+		return nil, fmt.Errorf("no key was found")
+	}
+
+	pixKey.Status = "inactive"
+	err := r.Db.Save(&pixKey).Error
+	if err != nil {
+		return nil, err
 	}
 
 	return &pixKey, nil

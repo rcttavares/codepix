@@ -49,6 +49,21 @@ func (p *PixGrpcService) Find(ctx context.Context, in *pb.PixKey) (*pb.PixKeyInf
 	}, nil
 }
 
+func (p *PixGrpcService) DeactivatePixKey(ctx context.Context, in *pb.PixKeyId) (*pb.PixKeyDeactivatedResult, error) {
+	key, err := p.PixUseCase.DeactivateKey(in.Id)
+	if err != nil {
+		return &pb.PixKeyDeactivatedResult{
+			Status: "not deactivated",
+			Error:  err.Error(),
+		}, err
+	}
+
+	return &pb.PixKeyDeactivatedResult{
+		Id:     key.ID,
+		Status: "deactivated",
+	}, nil
+}
+
 func NewPixGrpcService(usecase usecase.PixUseCase) *PixGrpcService {
 	return &PixGrpcService{
 		PixUseCase: usecase,
