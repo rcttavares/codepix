@@ -1,6 +1,10 @@
 services:
   app:
     build: .
+    restart: unless-stopped
+    depends_on:
+      - db
+      - kafka
     ports:
       - '50051:50051'
     volumes:

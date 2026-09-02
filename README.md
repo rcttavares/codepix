@@ -56,25 +56,17 @@ The service exposes two integration points:
 docker compose up
 ```
 
-**2. Enter the app container:**
+The `app` container automatically runs `go run -tags dynamic main.go all` (gRPC server + Kafka consumer) on startup — no manual step needed. Check `docker compose logs -f app` to confirm both are up.
+
+**2. Seed the database with fixture data** (one-time, on a fresh database):
 
 ```bash
-docker compose exec app bash
-```
-
-**3. Seed the database with fixture data:**
-
-```bash
-go run -tags dynamic main.go fixtures
-```
-
-**4. Start gRPC server + Kafka consumer:**
-
-```bash
-go run -tags dynamic main.go all
+docker compose exec app go run -tags dynamic main.go fixtures
 ```
 
 > **Note (Apple Silicon / ARM64):** `confluent-kafka-go v1.9.2` ships a vendored librdkafka built for x86_64 only. The `-tags dynamic` flag tells the compiler to use the system librdkafka (`librdkafka-dev`, already installed in the Docker image) instead.
+>
+> To run commands manually inside the container (e.g. to restart just one piece), use `docker compose exec app bash` and see the CLI commands below.
 
 ## CLI Commands
 
